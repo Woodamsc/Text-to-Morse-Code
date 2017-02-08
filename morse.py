@@ -61,7 +61,7 @@ if len(sys.argv) < 2:
 	print("Give text as input")
 	exit()
 elif len(sys.argv) == 3:
-	if str(sys.argv[2]) == noreadout:
+	if str(sys.argv[2]) == 'noreadout':
 		readout = False
 
 input_text = str(sys.argv[1])
