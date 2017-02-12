@@ -20,8 +20,18 @@ First argument is either text you type in or filename, quotes are stripped so do
 
 If the string is a file, it will load that in and translate it, otherwise it just translates the text.
 
-You can append '--noreadout' to the end of any command to disable printing out the code beneath it.
-While in REPL, appending '--noreadout' will toggle this option On/Off
+Flags can be used now. In REPL mode they 'stick' so that they toggle.
+Use --no-morse (-nm) will disable morse code printout (type again to enable in REPL)
+Use --alpha (-a) to enable alphanumeric printout (type again to disable in REPL)
+Use --blind (-b) to go blind. (Disables printout of both morse and alpha regardless of their states)
+Use --reset (-r) to reset all flags to default
 
-Press Ctrl+d to exit
+e.g. 
+./morse.py -nm -a "hello world"
+[h] [e] [l] [l] [o] [w] [o] [r] [l] [d]
+
+./morse.py -a 'hello world'
+....[h] .[e] .-..[l] .-..[l] ---[o]  | .--[w] ---[o] .-.[r] .-..[l] -..[d]
+
+And press Ctrl+d to exit when you want
 
