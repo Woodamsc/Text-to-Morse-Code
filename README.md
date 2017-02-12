@@ -2,21 +2,26 @@ Made this to help learn morse code
 
 Converts text to morse code
 
-Requires sox. Install via 1) or 2)
+Requires sox & Python 3. 
 
-1) apt-get install sox
+Install via (1) or (2)
 
-2) brew install sox
+(1) apt-get install sox
 
-Also you need python. I used python3.
+(2) brew install sox
 
-Python2 would probably work if you change the print statements
+Not sure about Windows, sorry.
 
-First argument is either a user entered string or filename, quotes are stripped.
+Usage:
 
-It first checks if the string is a file.
+No arguments puts you in a REPL interface. Anything you type there will get translated to Morse Code.
 
-If it is, it converts the file contents. Otherwise, it will just convert the string you typed.
+First argument is either text you type in or filename, quotes are stripped so don't worry about them.
 
+If the string is a file, it will load that in and translate it, otherwise it just translates the text.
 
-Second argument is an option 'noreadout' where it will not printout the text at all.
+You can append '--noreadout' to the end of any command to disable printing out the code beneath it.
+While in REPL, appending '--noreadout' will toggle this option On/Off
+
+Press Ctrl+d to exit
+
