@@ -52,13 +52,13 @@ lookup = {
 
 def pause():
 # Because readability. Fight me.
-	sleep(.3)
+	sleep(pause_speed)
 
 def playSymbol( symbol ):
 	if symbol == '-':
-		length = .3
+		length = dah_speed
 	elif symbol == '.':
-		length = .1
+		length = dit_speed
 	else:
 		return
 	call(["play", "-q", "-n", "synth", str( length ), "sin", "450"])
@@ -102,12 +102,25 @@ def tryAsFile(input):
 
 def updateArgs():
 # Flags can be toggled on and off by entering the same flag in again (for use in REPL). Not super kosher.
-	global alpha, blind, morse
+	global alpha, blind, morse, dah_speed, dit_speed, pause_speed
 	if args.reset:
 		alpha = False
 		blind = False
 		morse = True
+		dit_speed 	= .1
+		dah_speed 	= .25
+		pause_speed = .3
 		return
+
+	if args.reset_print:
+		alpha = False
+		blind = False
+		morse = True
+
+	if args.reset_speed:
+		dit_speed 	= .1
+		dah_speed 	= .25
+		pause_speed = .3
 
 	if args.alpha:
 		alpha = ~alpha
@@ -118,17 +131,36 @@ def updateArgs():
 	if args.no_morse:
 		if morse:	morse = False
 		else:			morse = True
+	
+	if args.faster != None:
+		dah_speed	= .25-.01*args.faster
+		dit_speed	= .1-.01*args.faster
+		pause_speed	= .3-.01*args.faster
 
+	if args.slower:
+		dah_speed	= .25+.01*args.slower
+		dit_speed	= .1+.01*args.slower
+		pause_speed	= .3+.01*args.slower
+	
 #### E N T R Y ####
 alpha = False
 blind = False
 morse = True
+dah_speed	= .25
+dit_speed	= .1
+pause_speed	= .3
 parser = argparse.ArgumentParser()
-parser.add_argument( "text", nargs="?", 	help="Text or File to be translated, quotes are okay" )
-parser.add_argument( "-b", "--blind", 		help="Go Blind; disable printing out any text", action="store_true" )
-parser.add_argument( "-nm", "--no_morse", help="Disable printing out morse code", 			action="store_true" )
-parser.add_argument( "-a", "--alpha", 		help="Print alphanumeric text",						action="store_true" )
-parser.add_argument( "-r", "--reset", 		help="Reset all arguments",							action="store_true" )
+parser.add_argument( "text", nargs="?", 		help="Text or File to be translated, quotes are okay" )
+parser.add_argument( "-b", "--blind", 			help="Go Blind; disable printing out any text", action="store_true" )
+parser.add_argument( "-nm", "--no_morse", 	help="Disable printing out morse code", 			action="store_true" )
+parser.add_argument( "-a", "--alpha", 			help="Print alphanumeric text",						action="store_true" )
+parser.add_argument( "-r", "--reset", 			help="Set all arguments back to default",			action="store_true" )
+parser.add_argument( "-rp", "--reset-print", help="Reset print arguments to default",			action="store_true" )
+parser.add_argument( "-rs", "--reset-speed", help="Reset speed arguments to default",			action="store_true" )
+parser.add_argument( "-f", "--faster", 	type=int, choices=[0,1,2,3,4,5],
+														help="Multiplicatively increase speed .05xN"	)
+parser.add_argument( "-s", "--slower", 	type=int, choices=[0,1,2,3,4,5],
+														help="Multiplicatively decrease speed .05xN"	)
 args = parser.parse_args()
 updateArgs()
 
@@ -149,4 +181,7 @@ else:
 		except EOFError:
 			print( "-...-.--." )
 			exit()
+		
+		except:
+			print("Remember to surround text in quotes if using spaces")
 
