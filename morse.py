@@ -169,6 +169,7 @@ if args.text != None:
 	printTranslation( translate( text ) )
 
 else:
+	print("Exit loop mode with ctrl+d")
 	while(True):
 		try:
 			input_text = input( "> " )
